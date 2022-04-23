@@ -4,25 +4,18 @@ from Block import *
 
 pg.init()
 
-
 screen = pg.display.set_mode((800, 800))
-bSize = 8
+bSize = 4
 
 running = True
 clicking = False
 
+# load in image
 im = pg.image.load('Images/dorm.png')
-# get images height 
-imHeight = im.get_height()
-imWidth = im.get_width()
-
-# chunks of 32 pixels
-imChunksW = (imWidth // 32) / 2
-imChunksH = (imHeight // 32) / 2
 
 # calc how many pixels to center it
-imPixelsX = ((screen.get_width() // 32) / 2) * 32 - (imChunksW * 32)
-imPixelsY = ((screen.get_height() // 32) / 2) * 32 - (imChunksH * 32)
+imPixelsX = ((screen.get_width() // 32) / 2) * 32 - (((im.get_width() // 32) / 2)* 32)
+imPixelsY = ((screen.get_height() // 32) / 2) * 32 - (((im.get_height() // 32) / 2)* 32)
 
 # make objects for all blocks
 blocks = []
@@ -30,36 +23,32 @@ clickTo = False
 
 bX = 0
 bY = 0
+# maps the blocks in rows. It segments the image into blocks
+# loo through every row in image
 for row in range(screen.get_height() // bSize):
     newRow = []
     bX = 0
+    # loop through every block in the row
     for column in range(screen.get_width() // bSize):
-        newRow.append(Block(bSize, bX, bY, screen))
+        newRow.append(Block(bSize, bX, bY))
         bX += bSize
     bY += bSize
+    # add it to list
     blocks.append(newRow)
 
 
 # main loop
 while running:
-
+    # fill background and draw image
+    screen.fill((0,0,0))
     screen.blit(im, (imPixelsX,imPixelsY))
-    
-    start = 0
-    for row in range(screen.get_height() // bSize):
-        pg.draw.line(screen, (0,0,0), (0, start), (screen.get_width(), start))
-        start += bSize
 
-    start = 0
-    for column in range(screen.get_width() // bSize):
-        pg.draw.line(screen, (0,0,0), (start, 0), (start, screen.get_height()))
-        start += bSize
-
-
+    # loop through events
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
 
+        # if the mouse is clicked than start drawing on blocks
         if event.type == pg.MOUSEBUTTONDOWN:
             clicking = True
             click = pg.mouse.get_pos()
@@ -67,9 +56,11 @@ while running:
             y = (click[1] // bSize)
             clickTo = not blocks[y][x].getState()
 
+        # when mouse is up stop drawing
         if event.type == pg.MOUSEBUTTONUP:
             clicking = False
     
+    # change state of the blocks
     if clicking == True:
         click = pg.mouse.get_pos()
         x = (click[0] // bSize)
@@ -78,9 +69,11 @@ while running:
 
     for row in blocks:
         for block in row:
-            block.draw()
+            block.draw(screen)
 
 
     pg.display.update()
+
+# save blocks to a pickle file
 pickle.dump(blocks, open('test.pkl', 'wb'))
 pg.quit()
