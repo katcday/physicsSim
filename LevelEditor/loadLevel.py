@@ -7,7 +7,7 @@ pg.init()
 
 # game state variables
 screen = pg.display.set_mode((800, 800))
-bSize = 4
+bSize = 8
 
 running = True
 clicking = False

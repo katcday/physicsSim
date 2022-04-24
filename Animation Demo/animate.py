@@ -48,6 +48,7 @@ class SpriteSheet:
         self.animations = []
         # a list that contains the amount of frames in each subsequent row
         self.rowNums = rowNums
+        self.tempAnimations = []
 
     def buildAnimation(self, numInRow, rowNum):
         self.animations.append(Animation())
@@ -67,6 +68,22 @@ class SpriteSheet:
 
     def draw(self, screen, animation):
         animation = self.animations[animation]
+        
+        screen.blit(animation.getFrame(), (0,0))
+
+    # this will create a splice of a set amount of frames and store it to the temporary animation list
+    def spliceFrames(self, animationInd, startInd, endInd):
+        frames = self.animations[animationInd].frames[startInd:endInd]
+
+        newAn = Animation()
+
+        for frame in frames:
+            newAn.addFrame(frame)
+
+        self.tempAnimations.append(newAn)
+
+    def drawTemp(self, screen, animationInd):
+        animation = self.tempAnimations[animationInd]
         
         screen.blit(animation.getFrame(), (0,0))
 

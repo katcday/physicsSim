@@ -6,7 +6,7 @@ pg.init()
 
 screen = pg.display.set_mode((800, 800))
 # this is the size of blocks you are selecting
-bSize = 4
+bSize = 8
 
 running = True
 clicking = False
