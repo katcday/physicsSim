@@ -87,5 +87,9 @@ class SpriteSheet:
         
         screen.blit(animation.getFrame(), (0,0))
 
+    def returnTemp(self, animationInd):
+        animation = self.tempAnimations[animationInd]
+        return animation.getFrame()
+
             
 
