@@ -6,13 +6,13 @@ pg.init()
 
 screen = pg.display.set_mode((800, 800))
 # this is the size of blocks you are selecting
-bSize = 8
+bSize = 4
 
 running = True
 clicking = False
 
 # load in image
-im = pg.image.load('Images/dorm.png')
+im = pg.image.load('Images/emptyClass.png')
 
 # calc how many pixels to center it
 imPixelsX = ((screen.get_width() // 32) / 2) * 32 - (((im.get_width() // 32) / 2)* 32)
@@ -76,5 +76,6 @@ while running:
     pg.display.update()
 
 # save blocks to a pickle file
-pickle.dump(blocks, open('test.pkl', 'wb'))
+with open("emptyClassCollisions", "wb") as f:
+    pickle.dump(blocks, f)
 pg.quit()

@@ -7,7 +7,7 @@ pg.init()
 
 # game state variables
 screen = pg.display.set_mode((800, 800))
-bSize = 8
+bSize = 4
 
 running = True
 clicking = False
@@ -17,7 +17,7 @@ down = False
 left = False
 right = False
 
-im = pg.image.load('Images/dorm.png')
+im = pg.image.load('Images/physicsRoom.png')
 # get images height 
 imHeight = im.get_height()
 imWidth = im.get_width()
@@ -35,8 +35,9 @@ blocks = []
 clickTo = False
 
 # load in pickle file
-infile = open('test.pkl','rb')
+infile = open('levels/classCollisions.pkl','rb')
 blocks = pickle.load(infile, encoding='latin1')
+infile.close()
 
 # make a character
 trial = Character(1, 400, 400, 20, 20)
@@ -46,6 +47,10 @@ while running:
     # draw background and image
     screen.fill((0,0,0))
     screen.blit(im, (imPixelsX,imPixelsY))
+
+    for row in blocks:
+        for block in row:
+            block.draw(screen)
 
 
     for event in pg.event.get():
@@ -101,5 +106,6 @@ while running:
     trial.draw(screen)
 
     pg.display.update()
+
 
 pg.quit()
