@@ -68,12 +68,12 @@ imHeight = im.get_height()
 imWidth = im.get_width()
 
 # chunks of 32 pixels
-imChunksW = (imWidth // 32) / 2
-imChunksH = (imHeight // 32) / 2
+imChunksW = (im.get_width() // 32) / 2
+imChunksH = (im.get_height() // 32) / 2
 
 # calc how many pixels to center it
-imPixelsX = ((screen.get_width() // 32) / 2) * 32 - (imChunksW * 32)
-imPixelsY = ((screen.get_height() // 32) / 2) * 32 - (imChunksH * 32)
+imPixelsX = ((screen.get_width() // 32) / 2) * 32 - ((im.get_width() // 32) / 2 * 32)
+imPixelsY = ((screen.get_height() // 32) / 2) * 32 - ((im.get_height() // 32) / 2 * 32)
 
 # make objects for all blocks
 clickTo = False
@@ -185,7 +185,5 @@ while running:
     fpsClock.tick(FPS)
 
     #print(str(pg.mouse.get_pos()[0]) + " " + str(pg.mouse.get_pos()[1])) 
-
-    pg.display.update()
 
 pg.quit()
