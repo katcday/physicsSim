@@ -10,6 +10,7 @@ from controlFunctions import *
 from menu import *
 
 pg.init()
+pg.font.init()
 screen = pg.display.set_mode((800, 800))
 
 # first we need to build all of our levels
@@ -27,6 +28,12 @@ characters.append(Character(char1, 400, 400, 5))
 
 char2 = 'game/characters/whitney/char2.png'
 characters.append(Whitney(char2, 250, 500, 3))
+
+char3 = 'game/characters/raja/char3.png'
+characters.append(Raja(char3, 350, 500, 3))
+
+char4 = 'game/characters/wb/char4.png'
+characters.append(Whitbeck(char4, 350, 500, 3))
 
 # lets make the dorm
 bg = pg.image.load('game/dorm/bg/dorm.png')
@@ -95,11 +102,15 @@ playGame = False
 startFail = False
 startMenu = True
 
+# setup all levels before game starts
+for level in levels:
+    level.setup()
+
 # fps stuff
 FPS = 30
 fpsClock = pg.time.Clock()
 
-levels[0].open()
+levels[currentLev].open()
 
 # game loop
 while running:
@@ -170,10 +181,45 @@ while running:
                 levels[currentLev].click(screen)
 
         levels[currentLev].update(screen)
+        if currentLev == 1:
+            checkFight = levels[currentLev].startFight(levels)
+            if checkFight == True:
+                classroom = False
+                battle = True
+                currentLev = 2
+                # make sure to run setup level when there's a change so characters appear in correct place
+                levels[currentLev].setup()
+            elif levels[currentLev].timeUp() == True:
+                classroom = False
+                dorm = True
+                currentLev = 0
+                levels[currentLev].setup()
 
+        elif currentLev == 2:
+            gameState = levels[currentLev].checkLoss()
+            if gameState == 0:
+                currentLev = 0
+                battle = False
+                dorm = True
+                levels[currentLev].setup()
+            if gameState == 1:
+                currentLev = 1
+                battle = False
+                classroom = True
+                levels[currentLev].setup()
+
+        elif currentLev == 0:
+            gameState = levels[currentLev].isSleep()
+            if gameState == 1:
+                currentLev = 1
+                levels[currentLev].setup()
+                dorm = False
+                classroom = True
+
+    # start menu
     elif startMenu == True:
         # show menu
-        menu.startMenu(screen)
+        menu.startMenu(screen, characters)
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
@@ -182,9 +228,9 @@ while running:
                 startFail = menu.click()
                 if startFail == True:
                     startMenu = False
+                    levels[currentLev].setup()
 
-
-
+    # rhis is just the stuff for the start of the game
     elif startFail == True:
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -193,9 +239,11 @@ while running:
             if event.type == pg.MOUSEBUTTONDOWN:
                 failure.click()
             
-        playGame = failure.failure(screen)
+        # runs the first cutscene where you fail the quiz
+        playGame = failure.failure(screen, characters, counter)
         if playGame == True:
             startFail = False
+            levels[1].setup()
 
 
     #print(pg.mouse.get_pos())

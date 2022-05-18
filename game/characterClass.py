@@ -2,6 +2,7 @@ from animate import *
 import pygame as pg
 import math
 from menu import *
+pg.font.init()
 
 class Character:
     def __init__(self, sheet, sX, sY, speed):
@@ -10,6 +11,13 @@ class Character:
         self.sheet.loadSheet()
         self.width = 32
         self.height = 64
+        self.isFight = False
+        # mental Health
+        self.health = 10
+        # physics knowledge
+        self.pk = 1
+        self.name = "You"
+        self.score = 15
 
         start = 0
         end = 5
@@ -34,9 +42,41 @@ class Character:
         self.speed = speed
         self.nextFrame = self.stand[0].getFrame()
 
+    def getHealth(self):
+        return self.health
+
+    def getpk(self):
+        return self.pk
+
+    def chHealth(self, amt):
+        self.health += amt
+        if self.health > 10:
+            self.health = 10
+        elif self.health < 0:
+            self.health = 0
+    
+    def chpk(self, amt):
+        self.pk += amt
+        if self.pk > 10:
+            self.pk = 10
+        elif self.pk < 0:
+            self.pk = 0
+
+    def chScore(self, amt):
+        self.score += amt
+        if self.score > 100:
+            self.score = 100
+        elif self.pk < 0:
+            self.score = 0
+
+
     def setPos(self, x, y):
         self.x = x
         self.y = y
+
+    def setFight(self, condition):
+        self.isFight = condition
+
 
     def move(self, direction, fps, counter, screen, move, wait):
         # we want to update this every 10 fps
@@ -141,29 +181,108 @@ class Character:
     def draw(self, screen):
         screen.blit(self.nextFrame, (self.x, self.y))
 
+    def damage(self, amount):
+        self.health -= amount
+
 class Whitney(Character):
     def __init__(self, sheet, sX, sY, speed):
         super().__init__(sheet, sX, sY, speed)
         self.clicks = 0
-        self.speech = ["Ugh I do know my left from my right.","Hi I'm Whitney! Dr. Whitbeck said you failed the last quiz\nYou must be pretty stupid!",
-        "Stop bothering me!"]
+        self.speech = [["Ugh I do know my left from my right."],["Hi I'm Whitney!", "Dr. Whitbeck said you failed the last quiz!", "You must be pretty stupid!"],
+        ["Stop bothering me!"]]
         self.sCount = 0
         self.bothered = "What? You wanna go? Dr. Whitbeck's gonna see what a loser you really are!"
         self.speak = False
-        self.font = pg.font.SysFont("marion.ttf", 30)
-        self.fight = MenuButton(150, 650, 100, 40, (50,50,50), text="Fight", tSize=30, tColor=(200,200,200))
+        self.font = pg.font.Font("game/Fonts/Pixel.ttf", 16)
+        self.fight = MenuButton(150, 650, 100, 40, (50,50,50), text="Fight", tSize=25, tColor=(200,200,200))
+        # gonna make the battle more reliable
+        self.code = "w"
+        self.name = "Whitney"
+        self.score = 70
 
     def interact(self, screen):
         pg.draw.rect(screen, (50, 50, 50), [100, 700, 600, 80])
-        text = self.speech[self.sCount]
-        text = self.font.render(text, True, (200, 200, 200), (50, 50, 50))
-        textRect = text.get_rect()
-        textRect.center = (350, 740)
-        screen.blit(text, textRect)
-        print(self.speech[self.sCount])
+        y = 700
+        step = 25
+        for i in self.speech[self.sCount]:
+            text = self.font.render(i, True, (200, 200, 200), (50, 50, 50))
+            textRect = text.get_rect()
+            textRect.center = (350, y + (step // 2))
+            screen.blit(text, textRect)
+            y += step
 
         # we also need to create a menu button to fight whitney with
         self.fight.draw(screen)
+        
+
+    def nextSpeech(self):
+        if self.sCount < len(self.speech) - 1:
+            self.sCount += 1
+        else:
+            self.sCount = 0
+
+
+class Raja(Character):
+    def __init__(self, sheet, sX, sY, speed):
+        super().__init__(sheet, sX, sY, speed)
+        self.clicks = 0
+        self.speech = [["I love Calculus"],["Please don't talk to me...", "Or sit near me...", "In fact I think you should just go now."],
+        ["Man that quiz was easy!", "I haven't studied in 3 weeks either!!", "(glances around nervously)"]]
+        self.sCount = 0
+        self.bothered = "Ha! You better watch out, I have my collection of projectiles right here!"
+        self.speak = False
+        self.font = pg.font.Font("game/Fonts/Pixel.ttf", 16)
+        self.fight = MenuButton(150, 650, 100, 40, (50,50,50), text="Fight", tSize=25, tColor=(200,200,200))
+        # gonna make the battle more reliable
+        self.code = "r"
+        self.name = "Raja"
+        self.score = 95
+
+    def interact(self, screen):
+        pg.draw.rect(screen, (50, 50, 50), [100, 700, 600, 80])
+        y = 700
+        step = 25
+        for i in self.speech[self.sCount]:
+            text = self.font.render(i, True, (200, 200, 200), (50, 50, 50))
+            textRect = text.get_rect()
+            textRect.center = (350, y + (step // 2))
+            screen.blit(text, textRect)
+            y += step
+
+        # we also need to create a menu button to fight whitney with
+        self.fight.draw(screen)
+        
+
+    def nextSpeech(self):
+        if self.sCount < len(self.speech) - 1:
+            self.sCount += 1
+        else:
+            self.sCount = 0
+
+class Whitbeck(Character):
+    def __init__(self, sheet, sX, sY, speed):
+        super().__init__(sheet, sX, sY, speed)
+        self.clicks = 0
+        self.speech = [["God you are awful at physics."], ["Maybe you should study more instead of talking so much."], ["Do NOT ask me for a letter of rec"]]
+        self.sCount = 0
+        self.bothered = "Ha! You better watch out, I have my collection of projectiles right here!"
+        self.speak = False
+        self.font = pg.font.Font("game/Fonts/Pixel.ttf", 16)
+        # gonna make the battle more reliable
+        self.code = "r"
+        self.name = "Raja"
+        self.score = 95
+
+    def interact(self, screen):
+        pg.draw.rect(screen, (50, 50, 50), [100, 700, 600, 80])
+        y = 700
+        step = 25
+        for i in self.speech[self.sCount]:
+            text = self.font.render(i, True, (200, 200, 200), (50, 50, 50))
+            textRect = text.get_rect()
+            textRect.center = (350, y + (step // 2))
+            screen.blit(text, textRect)
+            y += step
         
 
     def nextSpeech(self):
