@@ -246,7 +246,7 @@ while running:
             levels[1].setup()
 
 
-    #print(pg.mouse.get_pos())
+    print(pg.mouse.get_pos())
 
 
     pg.display.update()

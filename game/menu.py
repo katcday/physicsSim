@@ -221,6 +221,7 @@ class Objects:
     def collideB(self, mx, my):
         for button in self.buttons:
             if button.collision(mx, my, True) == True:
+                print(button)
                 #print(button.x)
                 return True
         return False
@@ -285,8 +286,8 @@ class Computer(Objects):
     def __init__(self, x1=518, x2=576, y1=482, y2=511):
         super().__init__(x1, x2, y1, y2)
         self.disText = "What do you want to do on the computer?"
-        self.buttons = [MenuButton(100, 650, 300, 50, (50, 50, 50), text="Chegg it.", tColor=(200, 200, 200), tSize = 25), MenuButton(400, 650, 300, 50, (50, 50, 50), text="Video Games", tColor=(200, 200, 200), tSize = 25),
-            MenuButton(100, 700, 600, 50, (50, 50, 50), text="Homework", tColor=(200, 200, 200), tSize = 25)]
+        self.buttons = [MenuButton(100, 650, 300, 50, (50, 10, 50), text="Chegg it.", tColor=(200, 200, 200), tSize = 25), MenuButton(400, 650, 300, 50, (30, 50, 50), text="Video Games", tColor=(200, 200, 200), tSize = 25),
+            MenuButton(100, 710, 600, 50, (50, 80, 50), text="Homework", tColor=(200, 200, 200), tSize = 25)]
         self.font = pg.font.Font("game/Fonts/Pixel.ttf", 30)
         self.font = pg.font.Font("game/Fonts/Pixel.ttf", 30)
 
@@ -305,6 +306,60 @@ class Computer(Objects):
 
     def button2(self):
         return False
+
+class Bookshelf(Objects):
+    def __init__(self, x1=556, x2=573, y1=365, y2=444):
+        super().__init__(x1, x2, y1, y2)
+        self.disText = "You don't like reading!"
+        self.buttons = []
+        self.font = pg.font.Font("game/Fonts/Pixel.ttf", 15)
+
+    def display(self, screen):
+        pg.draw.rect(screen, (50, 50, 50), [100, 600, 600, 50])
+        text = self.font.render(self.disText, True, (200, 200, 200), (50, 50, 50))
+        textRect = text.get_rect()
+        textRect.center = (400, 625)
+        screen.blit(text, textRect)
+
+        for button in self.buttons:
+            button.draw(screen)
+
+class Shower(Objects):
+    def __init__(self, x1=295, x2=347, y1=388, y2=435):
+        super().__init__(x1, x2, y1, y2)
+        self.disText = "You don't have time to shower! You are a physicist"
+        self.buttons = []
+        self.font = pg.font.Font("game/Fonts/Pixel.ttf", 15)
+
+    def display(self, screen):
+        pg.draw.rect(screen, (50, 50, 50), [100, 600, 600, 50])
+        text = self.font.render(self.disText, True, (200, 200, 200), (50, 50, 50))
+        textRect = text.get_rect()
+        textRect.center = (400, 625)
+        screen.blit(text, textRect)
+
+        for button in self.buttons:
+            button.draw(screen)
+
+class Fridge(Objects):
+    def __init__(self, x1=482, x2=510, y1=292, y2=340):
+        super().__init__(x1, x2, y1, y2)
+        self.disText = "There is one moldy pita and a Reece's cup inside."
+        self.buttons = []
+        self.font = pg.font.Font("game/Fonts/Pixel.ttf", 15)
+
+    def display(self, screen):
+        pg.draw.rect(screen, (50, 50, 50), [100, 600, 600, 50])
+        text = self.font.render(self.disText, True, (200, 200, 200), (50, 50, 50))
+        textRect = text.get_rect()
+        textRect.center = (400, 625)
+        screen.blit(text, textRect)
+
+        for button in self.buttons:
+            button.draw(screen)
+
+
+
 
 
 

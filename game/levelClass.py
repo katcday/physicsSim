@@ -80,7 +80,7 @@ class Dorm(Level):
     def __init__(self, bg, blocks, screen, characters=[]):
         super().__init__(bg, blocks, screen, characters)
         self.sleep = False
-        self.objects = [Bed(387, 458, 324, 361), Books(), Computer()]
+        self.objects = [Bed(387, 458, 324, 361), Books(), Computer(), Bookshelf(), Shower(), Fridge()]
         self.time = 1
         self.timeLim = 1600
         self.font = pg.font.Font("game/Fonts/Pixel.ttf", 20)
@@ -165,6 +165,7 @@ class Dorm(Level):
 # computer
         if self.objects[2].collideB(x, y) == True and self.objects[2].clicked == True:
             buttonInd = self.objects[2].findB()
+            print(buttonInd)
             if buttonInd == 0 and self.time + 200 < self.timeLim and self.characters[0].getpk() > 0:
                 self.time += 200
                 self.characters[0].chpk(-1)
@@ -209,6 +210,31 @@ class Dorm(Level):
 
         elif self.objects[2].collide(x, y) == True:
             self.objects[2].cClick(True)
+
+    # booksshelf
+        if self.objects[3].clicked == True:
+
+            # we turn off the display screen
+            self.objects[3].cClick(False)
+
+        elif self.objects[3].collide(x, y) == True:
+            self.objects[3].cClick(True)
+
+        if self.objects[4].clicked == True:
+
+            # we turn off the display screen
+            self.objects[4].cClick(False)
+
+        elif self.objects[4].collide(x, y) == True:
+            self.objects[4].cClick(True)
+
+        if self.objects[5].clicked == True:
+
+            # we turn off the display screen
+            self.objects[5].cClick(False)
+
+        elif self.objects[5].collide(x, y) == True:
+            self.objects[5].cClick(True)
 
 
     def sleepToHealth(self):
@@ -545,7 +571,7 @@ class Battle(Level):
             for attack in self.attacks:
                 if attack.collideCharacter(self.mc.getX(), self.mc.getY(), self.mc.height, self.mc.width) == True:
                     self.mc.damage(1)
-                    self.enPoints += 3
+                    self.enPoints += 0
                     self.dTaken = True
 
             for attack in self.mcProj:
