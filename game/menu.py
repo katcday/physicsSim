@@ -113,7 +113,7 @@ class Menu:
         screen.fill((90, 127, 250))
         words = ["You are a physics student trying to get Dr. Whitbeck", "to give you an A. You must defeat the other students in", "battle to increase your reputation and lower theirs.", 
         "To win battles you may expend physics knowledge", "to do damage on your opponent. If the opponent's attack hits", "you, your mental health will be lowered.", "When your reputation is higher than the other players,", "you will be Dr. Whitbeck's favorite.",
-        "", "", "Use WASD keys to move your character.", "Use the mouse/trackpad to interact with objects and characters.","", "", "Click to continue..."]
+        "","When in the classroom, click go to dorm to go back to your room", "where you can recuperate", "", "Use WASD keys to move your character.", "Use the mouse/trackpad to interact with objects and characters.","", "", "Click to continue..."]
 
         iniY = 200
         step = 30
