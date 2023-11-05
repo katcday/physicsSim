@@ -33,20 +33,16 @@ We fight students with our physics knowledge, so it's important to study once yo
 
 Oh No! Raja is attacking!
  <p align="center">
-  <img src="https://github.com/katcday/physicsSim/blob/main/Game%20Design%20Document%20Images/Screen%20Shot%202022-05-23%20at%201.10.03%20AM.png
-">
+  <img src="https://github.com/katcday/physicsSim/blob/main/Game%20Design%20Document%20Images/Screen%20Shot%202022-05-23%20at%201.10.03%20AM.png">
 </p>
 
 We can rest to heal!
  <p align="center">
-  <img src="https://github.com/katcday/physicsSim/blob/main/Game%20Design%20Document%20Images/Screen%20Shot%202022-05-23%20at%201.08.56%20AM.png
-">
+  <img src="https://github.com/katcday/physicsSim/blob/main/Game%20Design%20Document%20Images/Screen%20Shot%202022-05-23%20at%201.08.56%20AM.png">
 </p>
 
 One challenge I experienced while coding this was dealing with collisions without a game engine. I created my own program where I could draw on collision maps and then upload them to my level player to add them to a certain level. Here's an example of that:
  <p align="center">
-  <img src="
-https://github.com/katcday/physicsSim/blob/main/Game%20Design%20Document%20Images/Screen%20Shot%202022-05-23%20at%201.11.59%20AM.png
-">
+  <img src="https://github.com/katcday/physicsSim/blob/main/Game%20Design%20Document%20Images/Screen%20Shot%202022-05-23%20at%201.11.59%20AM.png">
 </p>
 
